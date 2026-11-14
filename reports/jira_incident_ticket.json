@@ -1,0 +1,135 @@
+{
+  "jira_api_version": "3",
+  "project": {
+    "key": "DCO"
+  },
+  "issuetype": {
+    "name": "Incident"
+  },
+  "summary": "[SEV-3] Network Physical Layer Fault \u2014 veth0 @ DESKTOP-AVET5II",
+  "priority": {
+    "name": "Medium"
+  },
+  "labels": [
+    "network",
+    "dco",
+    "physical-layer",
+    "automated",
+    "sev-sev-3",
+    "l1-fiber"
+  ],
+  "components": [
+    {
+      "name": "DCO-Network/Physical"
+    }
+  ],
+  "customfield_oncall_team": "DCO-NET",
+  "customfield_severity": "SEV-3",
+  "customfield_sla_minutes": 120,
+  "customfield_report_id": "09FE5989",
+  "description": {
+    "type": "doc",
+    "version": 1,
+    "content": [
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "type": "text",
+            "text": "Automated network diagnostic report. Severity: SEV-3. "
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "content": [
+          {
+            "type": "text",
+            "text": "RCA: LAYER 1 PHYSICAL SIGNAL DEGRADATION \u2014 15,509 RX CRC errors detected. CRC errors on fiber links typically indicate dirty or contaminated LC/UPC ferrules, exceeding fiber bend radius limits, or a marginal SFP+ transceiver.\n\nOPTICAL POWER BUDGET EXCEEDED \u2014 Received optical power is -17.891 dBm, below the minimum acceptable threshold of -17.0 dBm. Possible causes: excessive fiber attenuation, dirty ferrules, bad fiber splice, or dying SFP+ laser diode."
+          }
+        ]
+      }
+    ]
+  },
+  "diagnostic_telemetry": {
+    "metadata": {
+      "report_id": "09FE5989",
+      "timestamp": "2026-11-14T09:19:50.275636Z",
+      "hostname": "DESKTOP-AVET5II",
+      "interface": "veth0",
+      "scenario": "degraded_fiber",
+      "mode": "simulate"
+    },
+    "layer1_physical": {
+      "link_state": "UP",
+      "operational_state": "up",
+      "speed_mbps": 10000,
+      "duplex": "full",
+      "rx_crc_errors": 15509,
+      "tx_crc_errors": 1,
+      "rx_dropped": 306,
+      "tx_dropped": 0,
+      "rx_bytes": 2688389,
+      "tx_bytes": 2056787,
+      "optical_rx_power_dbm": -17.891,
+      "optical_tx_power_dbm": -2.15,
+      "media_type": "Fiber (SFP+)",
+      "transceiver_present": true,
+      "mtu": 9000
+    },
+    "layer2_datalink": {
+      "mac_address": "0a:dc:00:f1:be:01",
+      "arp_neighbor_state": "STALE",
+      "arp_neighbor_mac": "0a:dc:00:f1:be:02",
+      "vlan_id": 42,
+      "interface_flags": [
+        "BROADCAST",
+        "MULTICAST",
+        "UP"
+      ]
+    },
+    "layer3_network": {
+      "ping_min_ms": 75.511,
+      "ping_avg_ms": 85.32,
+      "ping_max_ms": 137.764,
+      "ping_mdev_ms": 18.157,
+      "packet_loss_pct": 15.0,
+      "packets_sent": 20,
+      "packets_received": 17,
+      "target_ip": "10.200.1.2",
+      "dns_hostname": "ec2.internal",
+      "dns_resolved_ip": "10.200.1.2",
+      "dns_latency_ms": 1.144,
+      "route_next_hop": "10.200.1.1",
+      "ttl": 64
+    },
+    "sla_evaluation": {
+      "severity": "SEV-3",
+      "jira_ticket_id": "DCO-NET-38657",
+      "jira_priority": "Medium",
+      "remediation_timer_min": 120,
+      "triggered_rules": [
+        "L1-CRC-ERRORS: RX CRC errors=15,509 (threshold=1,000)",
+        "L1-OPTICAL-RX-LOW: RX power=-17.891 dBm (threshold=-17.0 dBm)",
+        "L3-HIGH-LATENCY: avg=85.32ms (threshold=50.0ms)"
+      ],
+      "remediation_steps": [
+        "\ud83d\udd2c STEP A \u2014 Inspect LC/UPC fiber connector ferrules with a fiber endface inspection scope (e.g. JDSU FBP-SD15 or Fluke FI-500 FiberInspector). Contaminated ferrules show as dark spots in the core region.",
+        "\ud83e\uddf9 STEP B \u2014 Clean LC/UPC ferrules using a one-click fiber optic cleaner (e.g. Fujikura CLC-22). Clean both the patch cable and the SFP+ transceiver ferrule. NEVER blow with breath (moisture causes contamination).",
+        "\ud83d\udce1 STEP C \u2014 After cleaning, re-measure optical RX power with `ethtool -m <iface>`. Target RX power range: -3.0 dBm to -13.0 dBm (current: -17.891 dBm).",
+        "\ud83d\udd2d STEP D \u2014 Use an optical power meter (e.g. EXFO PPM-350B) at the far end to measure insertion loss of the fiber run. Per-connector loss should be < 0.5 dB; total run loss < 3.5 dB for OM4 MMF.",
+        "\ud83d\udd01 STEP E \u2014 If optical loss is within budget, replace the SFP+ transceiver module. Use OEM-compatible modules meeting enterprise network specs (e.g. Finisar FTLX8571D3BCL for 10GBase-SR)."
+      ],
+      "root_cause_analysis": "LAYER 1 PHYSICAL SIGNAL DEGRADATION \u2014 15,509 RX CRC errors detected. CRC errors on fiber links typically indicate dirty or contaminated LC/UPC ferrules, exceeding fiber bend radius limits, or a marginal SFP+ transceiver.\n\nOPTICAL POWER BUDGET EXCEEDED \u2014 Received optical power is -17.891 dBm, below the minimum acceptable threshold of -17.0 dBm. Possible causes: excessive fiber attenuation, dirty ferrules, bad fiber splice, or dying SFP+ laser diode.",
+      "oncall_team": "DCO-NET",
+      "jira_labels": [
+        "network",
+        "dco",
+        "physical-layer",
+        "automated",
+        "sev-sev-3",
+        "l1-fiber"
+      ]
+    }
+  }
+}
